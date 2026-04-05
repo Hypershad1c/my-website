@@ -1,25 +1,20 @@
-generator client {
-  provider = "prisma-client-js" // Changed to the standard JS client
-}
-
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
 }
 
 model Product {
-  id          String   @id @default(cuid())
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   description String
-  price       Decimal
+  price       Float    // MongoDB uses Float for decimals in Prisma
   images      String[]
   stock       Int
-  categoryId  String
+  categoryId  String   @db.ObjectId
   category    Category @relation(fields: [categoryId], references: [id])
 }
 
-// Add this block to define the Category
 model Category {
-  id       String    @id @default(cuid())
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
   name     String    @unique
-  products Product[] // This is the "many" side of the relationship
+  products Product[]
 }
