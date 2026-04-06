@@ -4,6 +4,8 @@ import ProductCard from "@/components/ProductCard";
 export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
+  console.log('DATABASE_URL exists:', !!process.env.DATABASE_URL)
+
   const products = await db.product.findMany();
 
   return (
